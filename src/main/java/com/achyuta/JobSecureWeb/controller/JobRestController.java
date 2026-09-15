@@ -15,7 +15,7 @@ public class JobRestController {
 
     @GetMapping("jobPosts")
     public List<JobPost> getAllJobs() {
-        return service.getAlljobs();
+        return service.getAllJobs();
     }
 
     @GetMapping("/jobPost/{postId}")
@@ -39,5 +39,11 @@ public class JobRestController {
     public String deleteJob(@PathVariable int postId) {
         service.deleteJob(postId);
         return "Deleted";
+    }
+
+    @GetMapping("jobPosts/keyword/{keyword}")
+    public List<JobPost> searchByKeyword(@PathVariable("keyword") String keyword){
+        return service.search(keyword);
+
     }
 }

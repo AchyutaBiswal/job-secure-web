@@ -7,31 +7,89 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class JobService {
 
     @Autowired
-    private JobRepo repo;
+    public JobRepo repo;
 
-    public List<JobPost> getAlljobs() {
-        return repo.getAllJobs();
+
+
+
+
+    //method to return all JobPosts
+    public List<JobPost> getAllJobs() {
+        return repo.findAll();
+
+
     }
 
-    public JobPost getJob(int postId) {
-        return repo.getJob(postId);
-    }
 
-    public void updateJob(JobPost jobPost) {
-        // Replace the existing job with matching postId
-        deleteJob(jobPost.getPostId());
-        repo.addJob(jobPost);
-    }
 
+
+
+
+
+
+
+    // method to add a jobPost
     public void addJob(JobPost jobPost) {
-        repo.addJob(jobPost);
+        repo.save(jobPost);
+
     }
 
-    public void deleteJob(int postId) {
-        repo.getAllJobs().removeIf(job -> job.getPostId() == postId);
+
+
+
+    //method to get job by id
+    public JobPost getJob(int postId) {
+
+        return repo.findById(postId).orElse(new JobPost());
     }
+
+
+
+
+    //method to update job with job post object
+    public void updateJob(JobPost jobPost) {
+        repo.save(jobPost);
+
+    }
+
+
+
+
+    //method to delete job post by id
+    public void deleteJob(int postId) {
+        repo.deleteById(postId);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<JobPost> search(String keyword) {
+
+        return repo.findByPostProfileContainingOrPostDescContaining(keyword,keyword);
+    }
+
+
+
+
 }
